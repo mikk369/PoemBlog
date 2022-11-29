@@ -2,3 +2,70 @@ openapi: 3.0.2
 info:
   title: PoemBlog
   version: 1.0.0
+paths:
+  /poems:
+    get:
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/poem'
+              examples:
+                poem:
+                  value:
+                    status: success
+                    data:
+                      poems:
+                        createdAt: '2022-11-29T19:47:06.659Z'
+                        _id: 638661e6553e8458717a9999
+                        userId: 6366eec1385c79a791f80ee9
+                        title: Some poem randome title
+                        text: some pome text
+          description: List of poems returned
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/poem'
+              examples:
+                Not found:
+                  value:
+                    status: fail
+                    error: poems not found
+          description: Poems not found
+components:
+  schemas:
+    poem:
+      title: Root Type for poem
+      description: poem data
+      type: object
+      properties:
+        status:
+          type: string
+        data:
+          type: object
+          properties:
+            poems:
+              type: object
+              properties:
+                createdAt:
+                  format: date-time
+                  type: string
+                _id:
+                  type: string
+                userId:
+                  type: string
+                title:
+                  type: string
+                text:
+                  type: string
+      example:
+        status: success
+        data:
+          poems:
+            createdAt: '2022-11-29T19:47:06.659Z'
+            _id: 638661e6553e8458717a9999
+            userId: 6366eec1385c79a791f80ee9
+            title: Some poem randome title
+            text: some pome text

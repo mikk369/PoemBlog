@@ -8,7 +8,8 @@ const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
 const swaggerDocument = YAML.load('./swagger.yaml');
 
-const poemRouter = require('./routes/poemRoutes');
+const poemRoutes = require('./routes/poemRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 app.use(cors());
 app.use(express.json());
@@ -26,7 +27,8 @@ mongoose
   .then(() => console.log('DB connection successfull!'));
 
 // routes
-app.use('/api/v1/poems', poemRouter);
+app.use('/api/v1/poems', poemRoutes);
+app.use('/api/v1/', userRoutes);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server us running on port: ${process.env.PORT}`);

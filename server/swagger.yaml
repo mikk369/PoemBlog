@@ -3,6 +3,69 @@ info:
   title: PoemBlog
   version: 1.0.0
 paths:
+  /users:
+    post:
+      requestBody:
+        description: user email and password
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/users'
+            examples:
+              user input:
+                value:
+                  email: bob@gmail.com
+                  password: mikk12345
+        required: true
+      tags:
+        - Users
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/users'
+              examples:
+                user created:
+                  value:
+                    message: User Created
+                    data:
+                      user:
+                        email: bob@gmail.com
+                        password: mikk12345
+                        _id: 638797603615634aa1991ef1
+                        __v: 0
+          description: user created
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/users'
+              examples:
+                user already exists:
+                  value:
+                    error: User already exists
+          description: User with this email already exists
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/users'
+              examples:
+                Inputs not acceptable:
+                  value:
+                    error: Email or password not acceptable
+          description: User inputs are not acceptable
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/users'
+              examples:
+                Internal error:
+                  value:
+                    error: error
+          description: Internal error
   /poems:
     get:
       responses:
@@ -34,6 +97,8 @@ paths:
                     status: fail
                     error: poems not found
           description: Poems not found
+      tags:
+        - Poems
 components:
   schemas:
     poem:
@@ -69,3 +134,33 @@ components:
             userId: 6366eec1385c79a791f80ee9
             title: Some poem randome title
             text: some pome text
+    users:
+      title: Root Type for users
+      description: guest can create user
+      type: object
+      properties:
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            user:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                _id:
+                  type: string
+                __v:
+                  format: int32
+                  type: integer
+      example:
+        message: User Created
+        data:
+          user:
+            email: bob@gmail.com
+            password: mikk12345
+            _id: 638797603615634aa1991ef1
+            __v: 0

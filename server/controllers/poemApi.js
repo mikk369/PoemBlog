@@ -1,5 +1,5 @@
 const Poem = require('./../models/poemModel');
-
+const bcrypt = require('bcryptjs');
 exports.getAllPoems = async (req, res, next) => {
   try {
     const poems = await Poem.findOne();

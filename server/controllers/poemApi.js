@@ -46,3 +46,22 @@ exports.getPoem = async (req, res, next) => {
     });
   }
 };
+
+exports.updatePoem = async (req, res, next) => {
+  try {
+    const poem = await Poem.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        poem,
+      },
+    });
+  } catch (error) {
+    res.status(404).json({
+      error: 'Poem with given Id not found',
+    });
+  }
+};

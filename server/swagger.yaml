@@ -273,6 +273,70 @@ paths:
           description: Poem with given Id not found
       security:
         - CookieAuth: []
+    patch:
+      tags:
+        - Poems
+      parameters:
+        - name: id
+          description: Updates poem
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/poem'
+              examples:
+                Updated poem:
+                  value:
+                    status: success
+                    data:
+                      poem:
+                        _id: 6387e62bed4cef5f75cd0032
+                        userId: 6387de58b8ca994dcd8f9da2
+                        title: new poem title newnew
+                        text: >-
+                          Lorem Ipsum is simply dummy text of the printing and
+                          typesetting industry. Lorem Ipsum has been the industry's
+                          standard dummy text ever since the 1500s
+                        createdAt: '2022-11-30T23:24:26.543Z'
+                        __v: 0
+          description: Returns updated object
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/poem'
+              examples:
+                Unautorized:
+                  value:
+                    error: No authorization token not found
+          description: Authorization token not found
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/poem'
+              examples:
+                Poem not found:
+                  value:
+                    error: Poem with given Id not found
+          description: Poem with given Id not found
+      security:
+        - CookieAuth: []
+    parameters:
+      - examples:
+          Path to id:
+            value: '/poems/{id}'
+        name: id
+        description: Path to Id
+        schema:
+          type: string
+        in: path
+        required: true
 components:
   schemas:
     poem:

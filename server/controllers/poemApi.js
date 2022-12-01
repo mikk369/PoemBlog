@@ -3,7 +3,7 @@ exports.getAllPoems = async (req, res, next) => {
   try {
     const poems = await Poem.find();
     res.status(200).json({
-      message: 'success',
+      status: 'success',
       results: poems.length,
       data: {
         poems,
@@ -58,6 +58,20 @@ exports.updatePoem = async (req, res, next) => {
       data: {
         poem,
       },
+    });
+  } catch (error) {
+    res.status(404).json({
+      error: 'Poem with given Id not found',
+    });
+  }
+};
+
+exports.deletePoem = async (req, res, next) => {
+  try {
+    await Poem.findByIdAndDelete(req.params.id);
+    res.status(204).json({
+      status: 'success',
+      data: null,
     });
   } catch (error) {
     res.status(404).json({

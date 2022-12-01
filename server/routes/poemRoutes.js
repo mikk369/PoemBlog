@@ -11,6 +11,7 @@ router
 router
   .route('/:id')
   .get(authController.protect, poemApi.getPoem)
-  .patch(authController.protect, poemApi.updatePoem);
+  .patch(authController.protect, poemApi.updatePoem)
+  .delete(authController.protect, poemApi.deletePoem);
 
 module.exports = router;

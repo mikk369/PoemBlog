@@ -215,6 +215,8 @@ paths:
                   value:
                     error: One or more required fields empty
           description: When all fields are not filled
+      security:
+        - CookieAuth: []
   '/poems/{id}':
     get:
       tags:
@@ -270,6 +272,34 @@ paths:
                 Poem with given Id not found:
                   value:
                     error: Poem with given Id does not found
+          description: Poem with given Id not found
+      security:
+        - CookieAuth: []
+    delete:
+      tags:
+        - Poems
+      responses:
+        '204':
+          description: Poem deleted
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/users'
+              examples:
+                User not authorized:
+                  value:
+                    error: No authorization token not found
+          description: Not authorized
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/poem'
+              examples:
+                Poem not found:
+                  value:
+                    error: Poem with given Id not found
           description: Poem with given Id not found
       security:
         - CookieAuth: []

@@ -124,6 +124,8 @@ paths:
           description: Unauthorized
   /poems:
     get:
+      tags:
+        - Poems
       responses:
         '200':
           content:
@@ -153,6 +155,66 @@ paths:
                     status: fail
                     error: poems not found
           description: Poems not found
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/poem'
+            examples:
+              User input:
+                value:
+                  userId: 6387de58b8ca994dcd8f9da2
+                  title: Some poem title
+                  text: >-
+                    Lorem Ipsum is simply dummy text of the printing and typesetting
+                    industry. Lorem Ipsum has been the industry's standard dummy text ever
+                    since the 1500s
+        required: true
+      tags:
+        - Poems
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/poem'
+              examples:
+                When poem is posted:
+                  value:
+                    message: Poem created
+                    data:
+                      poem:
+                        userId: 6387de58b8ca994dcd8f9da2
+                        title: Some poem title
+                        text: >-
+                          Lorem Ipsum is simply dummy text of the printing and
+                          typesetting industry. Lorem Ipsum has been the industry's
+                          standard dummy text ever since the 1500s
+                        createdAt: '2022-12-01T10:35:56.263Z'
+                        _id: 6388843802ec5a22b2912929
+                        __v: 0
+          description: Poem created
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/poem'
+              examples:
+                When user unauthorized:
+                  value:
+                    error: No authorization token not found
+          description: Unautorized
+        '411':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/poem'
+              examples:
+                When input fields are empty:
+                  value:
+                    error: One or more required fields empty
+          description: When all fields are not filled
 components:
   schemas:
     poem:

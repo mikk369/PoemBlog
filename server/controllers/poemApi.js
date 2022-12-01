@@ -1,10 +1,10 @@
 const Poem = require('./../models/poemModel');
-const bcrypt = require('bcryptjs');
+
 exports.getAllPoems = async (req, res, next) => {
   try {
     const poems = await Poem.findOne();
     res.status(200).json({
-      status: 'success',
+      message: 'success',
       results: poems.length,
       data: {
         poems,
@@ -15,5 +15,19 @@ exports.getAllPoems = async (req, res, next) => {
       status: 'fail',
       error: 'poems not found',
     });
+  }
+};
+
+exports.createPoem = async (req, res, next) => {
+  try {
+    const newPoem = await Poem.create(req.body);
+    res.status(201).json({
+      message: 'Poem created',
+      data: {
+        poem: newPoem,
+      },
+    });
+  } catch (error) {
+    res.status(411).json({ error: 'One or more required fields empty' });
   }
 };

@@ -12,7 +12,7 @@ const poemSchema = mongoose.Schema({
     maxlength: [30, 'Poem name must have less or equal 30 characters'],
     minlength: [1, 'Poem name must have more or equal than 1 characters'],
   },
-  Text: {
+  text: {
     type: String,
     required: [true, 'A poem must have a content'],
   },

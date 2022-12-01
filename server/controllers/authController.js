@@ -1,5 +1,6 @@
 const User = require('./../models/userModel');
 const jwt = require('jsonwebtoken');
+const { promisify } = require('util');
 
 //token function so dont have to repeat code
 const signToken = (id) => {
@@ -90,4 +91,30 @@ exports.login = async (req, res, next) => {
   } catch (error) {
     res.status(500).send({ error: 'error' });
   }
+};
+
+exports.protect = async (req, res, next) => {
+  // getting token and check if its there and starts with Bearer
+  let token;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    // split token from bearer
+    token = req.headers.authorization.split(' ')[1];
+  }
+
+  if (!token) {
+    return next(
+      res.status(401).json({
+        error: 'No authorization token not found',
+      })
+    );
+  }
+
+  // // verify if token is valid and not expired
+  jwt.verify(token, process.env.JWT_SECRET);
+
+  //grant access to protected route
+  next();
 };

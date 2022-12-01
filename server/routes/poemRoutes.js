@@ -8,4 +8,6 @@ router
   .get(poemApi.getAllPoems)
   .post(authController.protect, poemApi.createPoem);
 
+router.route('/:id').get(authController.protect, poemApi.getPoem);
+
 module.exports = router;

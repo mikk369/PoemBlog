@@ -1,8 +1,7 @@
 const Poem = require('./../models/poemModel');
-
 exports.getAllPoems = async (req, res, next) => {
   try {
-    const poems = await Poem.findOne();
+    const poems = await Poem.find();
     res.status(200).json({
       message: 'success',
       results: poems.length,
@@ -29,5 +28,21 @@ exports.createPoem = async (req, res, next) => {
     });
   } catch (error) {
     res.status(411).json({ error: 'One or more required fields empty' });
+  }
+};
+
+exports.getPoem = async (req, res, next) => {
+  try {
+    const poem = await Poem.findById(req.params.id);
+    res.status(200).json({
+      status: 'success',
+      data: {
+        poem,
+      },
+    });
+  } catch (error) {
+    res.status(404).json({
+      error: 'Poem with given Id does not found',
+    });
   }
 };

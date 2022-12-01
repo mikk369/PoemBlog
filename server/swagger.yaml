@@ -215,6 +215,64 @@ paths:
                   value:
                     error: One or more required fields empty
           description: When all fields are not filled
+  '/poems/{id}':
+    get:
+      tags:
+        - Poems
+      parameters:
+        - examples:
+            path id:
+              value: '/poems/{id}'
+          name: id
+          description: Id of the poem that will be deleted
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/poem'
+              examples:
+                Poem by Id:
+                  value:
+                    status: success
+                    data:
+                      poem:
+                        _id: 6387e62bed4cef5f75cd0032
+                        userId: 6387de58b8ca994dcd8f9da2
+                        title: Some poem title
+                        text: >-
+                          Lorem Ipsum is simply dummy text of the printing and
+                          typesetting industry. Lorem Ipsum has been the industry's
+                          standard dummy text ever since the 1500s
+                        createdAt: '2022-11-30T23:24:26.543Z'
+                        __v: 0
+          description: Get poem by Id
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/users'
+              examples:
+                Un autorized:
+                  value:
+                    error: No authorization token not found
+          description: Not authorized
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/poem'
+              examples:
+                Poem with given Id not found:
+                  value:
+                    error: Poem with given Id does not found
+          description: Poem with given Id not found
+      security:
+        - CookieAuth: []
 components:
   schemas:
     poem:
@@ -280,3 +338,8 @@ components:
             password: mikk12345
             _id: 638797603615634aa1991ef1
             __v: 0
+  securitySchemes:
+    CookieAuth:
+      type: apiKey
+      name: jwt
+      in: cookie

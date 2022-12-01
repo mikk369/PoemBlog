@@ -224,9 +224,9 @@ paths:
       parameters:
         - examples:
             path id:
-              value: '/poems/{id}'
+              value: 638881e33508ee4fc4f693c4
           name: id
-          description: Id of the poem that will be deleted
+          description: Id of the poem
           schema:
             type: string
           in: path
@@ -278,6 +278,16 @@ paths:
     delete:
       tags:
         - Poems
+      parameters:
+        - examples:
+            Path to id:
+              value: 638881e33508ee4fc4f693c4
+          name: id
+          description: Id of the poem
+          schema:
+            type: string
+          in: path
+          required: true
       responses:
         '204':
           description: Poem deleted
@@ -307,8 +317,11 @@ paths:
       tags:
         - Poems
       parameters:
-        - name: id
-          description: Updates poem
+        - examples:
+            Id of the poem:
+              value: 638881e33508ee4fc4f693c4
+          name: id
+          description: Id of the poem
           schema:
             type: string
           in: path

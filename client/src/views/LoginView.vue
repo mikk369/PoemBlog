@@ -1,6 +1,7 @@
 <template>
   <div class="login-wrapper">
     <HeaderView></HeaderView>
+    <h1 v-if="user">{{ user.email }}</h1>
     <div class="login">
       <form>
         <h1>Login</h1>
@@ -72,10 +73,9 @@ export default {
         }
       );
       localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', response.data.data.user.email);
+      // console.log(response.data.data.email);
       this.$router.push('/');
-      setTimeout(() => {
-        alert('Your are logged in');
-      }, 500);
     },
   },
   components: {

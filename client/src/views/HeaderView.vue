@@ -40,6 +40,7 @@
               <button v-if="isLogged" @click="loggedOut">Logout</button>
             </li>
           </ul>
+          <h1 v-if="isLogged">{{ userName() }}</h1>
         </div>
       </div>
     </nav>
@@ -83,17 +84,18 @@ export default {
     loggedOut() {
       try {
         // foreach trough the key where value is token and remove it
-        let keysToRemove = ['token'];
+        let keysToRemove = ['token', 'user'];
         keysToRemove.forEach((key) => {
           localStorage.removeItem(key);
         });
         this.$router.push('/login');
-        setTimeout(() => {
-          alert('You are logged out ');
-        }, 500);
       } catch (err) {
         alert(err.response.data.message);
       }
+    },
+    userName() {
+      let user = localStorage.getItem('user');
+      return user;
     },
   },
 };

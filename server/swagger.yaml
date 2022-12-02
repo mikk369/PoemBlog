@@ -216,7 +216,7 @@ paths:
                     error: One or more required fields empty
           description: When all fields are not filled
       security:
-        - CookieAuth: []
+        - JWT: []
   '/poems/{id}':
     get:
       tags:
@@ -274,7 +274,7 @@ paths:
                     error: Poem with given Id does not found
           description: Poem with given Id not found
       security:
-        - CookieAuth: []
+        - JWT: []
     delete:
       tags:
         - Poems
@@ -312,7 +312,7 @@ paths:
                     error: Poem with given Id not found
           description: Poem with given Id not found
       security:
-        - CookieAuth: []
+        - JWT: []
     patch:
       tags:
         - Poems
@@ -369,7 +369,7 @@ paths:
                     error: Poem with given Id not found
           description: Poem with given Id not found
       security:
-        - CookieAuth: []
+        - JWT: []
     parameters:
       - examples:
           Path to id:
@@ -421,7 +421,7 @@ paths:
                     error: User with given Id does not exist
           description: User not found
       security:
-        - CookieAuth: []
+        - JWT: []
     parameters:
       - examples:
           User Id:
@@ -470,7 +470,7 @@ paths:
                     error: Users not found
           description: Users not found
       security:
-        - CookieAuth: []
+        - JWT: []
 components:
   schemas:
     poem:
@@ -537,7 +537,6 @@ components:
             _id: 638797603615634aa1991ef1
             __v: 0
   securitySchemes:
-    CookieAuth:
-      type: apiKey
-      name: jwt
-      in: cookie
+    JWT:
+      scheme: bearer
+      type: http

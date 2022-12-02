@@ -94,7 +94,7 @@ exports.login = async (req, res, next) => {
 };
 
 exports.protect = async (req, res, next) => {
-  // getting token and check if its there and starts with Bearer
+  // getting token from header and check if its there and starts with Bearer
   let token;
   if (
     req.headers.authorization &&
@@ -102,6 +102,9 @@ exports.protect = async (req, res, next) => {
   ) {
     // split token from bearer
     token = req.headers.authorization.split(' ')[1];
+    //also auth token in cookie
+  } else if (req.cookies.jwt) {
+    token = req.cookies.jwt;
   }
 
   if (!token) {

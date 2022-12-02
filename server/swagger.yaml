@@ -380,6 +380,97 @@ paths:
           type: string
         in: path
         required: true
+  '/users/{id}':
+    get:
+      tags:
+        - Users
+      parameters:
+        - examples:
+            User Id:
+              value: 6387de58b8ca994dcd8f9da2
+          name: id
+          description: Path id
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/users'
+              examples:
+                'User ':
+                  value:
+                    status: success
+                    data:
+                      user:
+                        _id: 6387de58b8ca994dcd8f9da2
+                        email: bob@gmail.com
+                        __v: 0
+          description: User found
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/users'
+              examples:
+                User not found:
+                  value:
+                    error: User with given Id does not exist
+          description: User not found
+      security:
+        - CookieAuth: []
+    parameters:
+      - examples:
+          User Id:
+            value: 6387de58b8ca994dcd8f9da2
+        name: id
+        description: Path id
+        schema:
+          type: string
+        in: path
+        required: true
+  /users/getUsers:
+    get:
+      tags:
+        - Users
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/users'
+              examples:
+                Returns users array:
+                  value:
+                    status: success
+                    results: 5
+                    data:
+                      users:
+                        - _id: 6387de58b8ca994dcd8f9da2
+                          email: bob@gmail.com
+                          __v: 0
+                        - _id: 63893662a107eb6710f851c9
+                          email: bob2@gmail.com
+                          __v: 0
+                        - _id: 638937a7a107eb6710f851d2
+                          email: bob3@gmail.com
+                          __v: 0
+          description: Get users array
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/users'
+              examples:
+                Users not found error:
+                  value:
+                    error: Users not found
+          description: Users not found
+      security:
+        - CookieAuth: []
 components:
   schemas:
     poem:

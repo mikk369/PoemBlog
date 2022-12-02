@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
 const swaggerDocument = YAML.load('./swagger.yaml');
+const cookieParser = require('cookie-parser');
 
 const poemRoutes = require('./routes/poemRoutes');
 const userRoutes = require('./routes/userRoutes');
@@ -14,6 +15,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use(cookieParser());
 
 //replace passwordstring with password
 const DB = process.env.DATABASE.replace('<PASSWORD>', process.env.PASSWORD);
@@ -27,7 +29,7 @@ mongoose
 
 // routes
 app.use('/api/v1/poems', poemRoutes);
-app.use('/api/v1/', userRoutes);
+app.use('/api/v1/users', userRoutes);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server us running on port: ${process.env.PORT}`);

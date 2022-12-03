@@ -14,68 +14,13 @@
       <!-- Landingpage content  -->
       <div class="main-content-wrapper">
         <div class="main-content">
-          <div class="paragraph-card">
+          <div class="paragraph-card" v-for="post in posts" :key="post.id">
             <div class="cards">
-              <h4><b>Poem heading</b></h4>
+              <h4>
+                <b>{{ post.title }}</b>
+              </h4>
               <p class="lower-paragraph">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis
-                dolorem expedita magni consequuntur, error debitis suscipit
-                excepturi fugiat, voluptatem aliquam facere blanditiis ipsum
-                voluptas reiciendis, fugit ducimus inventore? Dicta, impedit.
-              </p>
-            </div>
-          </div>
-          <div class="paragraph-card">
-            <div class="cards">
-              <h4><b>Poem heading</b></h4>
-              <p class="lower-paragraph">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis
-                dolorem expedita magni consequuntur, error debitis suscipit
-                excepturi fugiat, voluptatem aliquam facere blanditiis ipsum
-                voluptas reiciendis, fugit ducimus inventore? Dicta,
-                impedit.Lorem ipsum dolor sit amet, consectetur adipisicing
-                elit. Nobis dolorem expedita magni consequuntur, error debitis
-                suscipit excepturi fugiat, voluptatem aliquam facere blanditiis
-                ipsum voluptas reiciendis, fugit ducimus inventore? Dicta,
-                impedit.
-              </p>
-            </div>
-          </div>
-          <div class="paragraph-card">
-            <div class="cards">
-              <h4><b>Poem heading</b></h4>
-              <p class="lower-paragraph">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis
-                dolorem expedita magni consequuntur, error debitis suscipit
-                excepturi fugiat, voluptatem aliquam facere blanditiis ipsum
-                voluptas reiciendis, fugit ducimus inventore? Dicta, impedit.
-              </p>
-            </div>
-          </div>
-          <div class="paragraph-card">
-            <div class="cards">
-              <h4><b>Poem heading</b></h4>
-              <p class="lower-paragraph">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis
-                dolorem expedita magni consequuntur, error debitis suscipit
-                excepturi fugiat, voluptatem aliquam facere blanditiis ipsum
-                voluptas reiciendis, fugit ducimus inventore? Dicta,
-                impedit.Lorem ipsum dolor sit amet, consectetur adipisicing
-                elit. Nobis dolorem expedita magni consequuntur, error debitis
-                suscipit excepturi fugiat, voluptatem aliquam facere blanditiis
-                ipsum voluptas reiciendis, fugit ducimus inventore? Dicta,
-                impedit.
-              </p>
-            </div>
-          </div>
-          <div class="paragraph-card">
-            <div class="cards">
-              <h4><b>Poem heading</b></h4>
-              <p class="lower-paragraph">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis
-                dolorem expedita magni consequuntur, error debitis suscipit
-                excepturi fugiat, voluptatem aliquam facere blanditiis ipsum
-                voluptas reiciendis, fugit ducimus inventore? Dicta, impedit.
+                {{ post.text }}
               </p>
             </div>
           </div>
@@ -129,6 +74,15 @@ import HeaderView from './HeaderView.vue';
 import FooterView from './FooterView.vue';
 export default {
   name: 'HomeView',
+  data() {
+    return {
+      posts: [],
+    };
+  },
+  async created() {
+    const response = await axios.get('http://localhost:3000/api/v1/poems');
+    this.posts = response.data.data.poems;
+  },
 
   components: {
     HeaderView,

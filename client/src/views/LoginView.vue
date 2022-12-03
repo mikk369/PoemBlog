@@ -58,6 +58,7 @@ export default {
   name: 'loginview',
   data() {
     return {
+      user: '',
       email: '',
       password: '',
     };
@@ -69,7 +70,6 @@ export default {
         {
           email: this.email,
           password: this.password,
-          withCredentials: true,
         }
       );
       localStorage.setItem('token', response.data.token);

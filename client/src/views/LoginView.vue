@@ -47,6 +47,9 @@
   justify-content: center;
   align-items: center;
   margin-top: 10%;
+  margin-bottom: 306px;
+}
+.login-wrapper {
 }
 </style>
 <script>
@@ -70,7 +73,8 @@ export default {
         {
           email: this.email,
           password: this.password,
-        }
+        },
+        { withCredentials: true }
       );
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', response.data.data.user.email);

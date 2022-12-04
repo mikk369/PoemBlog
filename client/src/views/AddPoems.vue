@@ -45,12 +45,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
 }
 .addpoem {
   width: 300px;
   justify-content: center;
   align-items: center;
-  margin-top: 10%;
 }
 </style>
 <script>
@@ -70,6 +70,9 @@ export default {
       await axios.post('http://localhost:3000/api/v1/poems', {
         title: this.title,
         text: this.text,
+        headers: {
+          Cookie: 'jwt',
+        },
       });
       this.title = '';
       this.text = '';

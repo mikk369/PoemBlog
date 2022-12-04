@@ -46,6 +46,7 @@
   justify-content: center;
   align-items: center;
   margin-top: 10%;
+  margin-bottom: 306px;
 }
 </style>
 <script>
@@ -63,10 +64,14 @@ export default {
   },
   methods: {
     async loginForm() {
-      await axios.post('http://localhost:3000/api/v1/users/users', {
-        email: this.email,
-        password: this.password,
-      });
+      await axios.post(
+        'http://localhost:3000/api/v1/users/users',
+        {
+          email: this.email,
+          password: this.password,
+        },
+        { withCredentials: true }
+      );
 
       this.$router.push('/login');
     },

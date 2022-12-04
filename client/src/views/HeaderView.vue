@@ -88,7 +88,8 @@ export default {
         keysToRemove.forEach((key) => {
           localStorage.removeItem(key);
         });
-        this.$router.push('/login');
+        this.$router.push('/');
+        window.location.reload();
       } catch (err) {
         alert(err.response.data.message);
       }

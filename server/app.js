@@ -7,15 +7,22 @@ const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
 const swaggerDocument = YAML.load('./swagger.yaml');
 const cookieParser = require('cookie-parser');
-
+const helmet = require('helmet');
 const poemRoutes = require('./routes/poemRoutes');
 const userRoutes = require('./routes/userRoutes');
 
-app.use(cors());
+const corsOptions = {
+  origin: 'http://localhost:8080',
+  credentials: true, //access-control-allow-credentials:true
+  origin: true,
+};
+
+app.use(cookieParser());
+app.use(cors(corsOptions));
+app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-app.use(cookieParser());
 
 //replace passwordstring with password
 const DB = process.env.DATABASE.replace('<PASSWORD>', process.env.PASSWORD);
@@ -26,7 +33,6 @@ mongoose
     useNewUrlParser: true,
   })
   .then(() => console.log('DB connection successfull!'));
-
 // routes
 app.use('/api/v1/poems', poemRoutes);
 app.use('/api/v1/users', userRoutes);

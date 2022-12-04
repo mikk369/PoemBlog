@@ -92,3 +92,22 @@ exports.login = async (req, res, next) => {
     res.status(500).send({ error: 'error' });
   }
 };
+
+exports.protect = async (req, res, next) => {
+  if (!req.cookies) {
+    res.send(401).json({
+      error: 'no authentication token found!',
+    });
+    return;
+  }
+  // get requests cookies, which come with every request
+  const sessionToken = req.cookies['jwt'];
+  if (!sessionToken) {
+    res.send(401).json({
+      error: 'no authentication token found!',
+    });
+    return;
+  }
+
+  res.send('User logged in').end();
+};

@@ -3,126 +3,7 @@ info:
   title: PoemBlog
   version: 1.0.0
 paths:
-  /users:
-    post:
-      requestBody:
-        description: User email and password
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/users'
-            examples:
-              user input:
-                value:
-                  email: bob@gmail.com
-                  password: mikk12345
-        required: true
-      tags:
-        - Users
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/users'
-              examples:
-                user created:
-                  value:
-                    message: User Created
-                    token: >-
-                      eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzODdkZTU4YjhjYTk5NGRjZDhmOWRhMiIsImlhdCI6MTY2OTg0ODY2NCwiZXhwIjoxNjcwMzY3MDY0fQ.b7JLmrEx9sxC3eMjjVkk9nSsM8yHY6gHfLBlgsnzu08
-                    data:
-                      user:
-                        email: bob@gmail.com
-                        password: >-
-                          $2a$12$MkyngiJJdDRz8u4vTCTH6eomToPGljGDxQQQOB.P4PMUz/OjzF9Mm
-                        _id: 6387de58b8ca994dcd8f9da2
-                        __v: 0
-          description: user created
-        '403':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/users'
-              examples:
-                user already exists:
-                  value:
-                    error: User already exists
-          description: User with this email already exists
-        '406':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/users'
-              examples:
-                Inputs not acceptable:
-                  value:
-                    error: Email or password not acceptable
-          description: User inputs are not acceptable
-        '500':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/users'
-              examples:
-                Internal error:
-                  value:
-                    error: error
-          description: Internal error
-  /sessions:
-    post:
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/users'
-            examples:
-              Login input:
-                value:
-                  email: bob@gmail.com
-                  password: mikk12345
-        required: true
-      tags:
-        - Users
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/users'
-              examples:
-                Logged in user:
-                  value:
-                    status: success
-                    token: >-
-                      eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzODdiYTVkNTBkMThkNGY2ZjdiZTM2ZiIsImlhdCI6MTY2OTg0ODYwNSwiZXhwIjoxNjcwMzY3MDA1fQ.OjzH2d16LfwmcdN_Cd-SdBlVI4DpQezEkJk9RiNE5K0
-                    data:
-                      user:
-                        _id: 6387ba5d50d18d4f6f7be36f
-                        email: bob@gmail.com
-                        __v: 0
-          description: User logged in
-        '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/users'
-              examples:
-                Invalid user credentials:
-                  value:
-                    error: Please provide email and password!
-          description: Input fields empty
-        '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/users'
-              examples:
-                Wrong email or password:
-                  value:
-                    error: Incorrect email or password
-          description: Unauthorized
-  /poems:
+  /api/v1/poems:
     get:
       tags:
         - Poems
@@ -216,8 +97,8 @@ paths:
                     error: One or more required fields empty
           description: When all fields are not filled
       security:
-        - JWT: []
-  '/poems/{id}':
+        - Cookie: []
+  '/api/v1/poems/{id}':
     get:
       tags:
         - Poems
@@ -274,7 +155,7 @@ paths:
                     error: Poem with given Id does not found
           description: Poem with given Id not found
       security:
-        - JWT: []
+        - Cookie: []
     delete:
       tags:
         - Poems
@@ -312,7 +193,7 @@ paths:
                     error: Poem with given Id not found
           description: Poem with given Id not found
       security:
-        - JWT: []
+        - Cookie: []
     patch:
       tags:
         - Poems
@@ -369,7 +250,7 @@ paths:
                     error: Poem with given Id not found
           description: Poem with given Id not found
       security:
-        - JWT: []
+        - Cookie: []
     parameters:
       - examples:
           Path to id:
@@ -380,7 +261,126 @@ paths:
           type: string
         in: path
         required: true
-  '/users/{id}':
+  /api/v1/users/sessions:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/users'
+            examples:
+              Login input:
+                value:
+                  email: bob@gmail.com
+                  password: mikk12345
+        required: true
+      tags:
+        - Users
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/users'
+              examples:
+                Logged in user:
+                  value:
+                    status: success
+                    token: >-
+                      eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzODdiYTVkNTBkMThkNGY2ZjdiZTM2ZiIsImlhdCI6MTY2OTg0ODYwNSwiZXhwIjoxNjcwMzY3MDA1fQ.OjzH2d16LfwmcdN_Cd-SdBlVI4DpQezEkJk9RiNE5K0
+                    data:
+                      user:
+                        _id: 6387ba5d50d18d4f6f7be36f
+                        email: bob@gmail.com
+                        __v: 0
+          description: User logged in
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/users'
+              examples:
+                Invalid user credentials:
+                  value:
+                    error: Please provide email and password!
+          description: Input fields empty
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/users'
+              examples:
+                Wrong email or password:
+                  value:
+                    error: Incorrect email or password
+          description: Unauthorized
+  /api/v1/users/users:
+    post:
+      requestBody:
+        description: User email and password
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/users'
+            examples:
+              user input:
+                value:
+                  email: bob@gmail.com
+                  password: mikk12345
+        required: true
+      tags:
+        - Users
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/users'
+              examples:
+                user created:
+                  value:
+                    message: User Created
+                    token: >-
+                      eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzODdkZTU4YjhjYTk5NGRjZDhmOWRhMiIsImlhdCI6MTY2OTg0ODY2NCwiZXhwIjoxNjcwMzY3MDY0fQ.b7JLmrEx9sxC3eMjjVkk9nSsM8yHY6gHfLBlgsnzu08
+                    data:
+                      user:
+                        email: bob@gmail.com
+                        password: >-
+                          $2a$12$MkyngiJJdDRz8u4vTCTH6eomToPGljGDxQQQOB.P4PMUz/OjzF9Mm
+                        _id: 6387de58b8ca994dcd8f9da2
+                        __v: 0
+          description: user created
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/users'
+              examples:
+                user already exists:
+                  value:
+                    error: User already exists
+          description: User with this email already exists
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/users'
+              examples:
+                Inputs not acceptable:
+                  value:
+                    error: Email or password not acceptable
+          description: User inputs are not acceptable
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/users'
+              examples:
+                Internal error:
+                  value:
+                    error: error
+          description: Internal error
+  '/api/v1/users/users/{id}':
     get:
       tags:
         - Users
@@ -421,7 +421,7 @@ paths:
                     error: User with given Id does not exist
           description: User not found
       security:
-        - JWT: []
+        - Cookie: []
     parameters:
       - examples:
           User Id:
@@ -432,7 +432,7 @@ paths:
           type: string
         in: path
         required: true
-  /users/getUsers:
+  /api/v1/users/users/getUsers:
     get:
       tags:
         - Users
@@ -470,7 +470,7 @@ paths:
                     error: Users not found
           description: Users not found
       security:
-        - JWT: []
+        - Cookie: []
 components:
   schemas:
     poem:
@@ -537,6 +537,7 @@ components:
             _id: 638797603615634aa1991ef1
             __v: 0
   securitySchemes:
-    JWT:
-      scheme: bearer
-      type: http
+    Cookie:
+      type: apiKey
+      name: jwt
+      in: cookie

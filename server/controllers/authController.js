@@ -92,32 +92,3 @@ exports.login = async (req, res, next) => {
     res.status(500).send({ error: 'error' });
   }
 };
-
-exports.protect = async (req, res, next) => {
-  // getting token from header and check if its there and starts with Bearer
-  let token;
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
-  ) {
-    // split token from bearer
-    token = req.headers.authorization.split(' ')[1];
-    //also auth token in cookie
-  } else if (req.cookies.jwt) {
-    token = req.cookies.jwt;
-  }
-
-  if (!token) {
-    return next(
-      res.status(401).json({
-        error: 'No authorization token not found',
-      })
-    );
-  }
-
-  // // verify if token is valid and not expired
-  jwt.verify(token, process.env.JWT_SECRET);
-
-  //grant access to protected route
-  next();
-};

@@ -6,12 +6,12 @@ const authController = require('./../controllers/authController');
 router
   .route('/')
   .get(poemApi.getAllPoems)
-  .post(authController.protect, poemApi.createPoem);
+  .post(poemApi.createPoem);
 
 router
   .route('/:id')
-  .get(authController.protect, poemApi.getPoem)
-  .patch(authController.protect, poemApi.updatePoem)
-  .delete(authController.protect, poemApi.deletePoem);
+  .get(poemApi.getPoem)
+  .patch(poemApi.updatePoem)
+  .delete( poemApi.deletePoem);
 
 module.exports = router;

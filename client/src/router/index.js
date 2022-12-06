@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue';
 import SignupView from '../views/SignupView.vue';
 import Login from '../views/LoginView.vue';
 import AddPoems from '../views/AddPoems.vue';
+import PoemView from '../views/PoemView.vue';
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     path: '/addpoems',
     name: 'addpoems',
     component: AddPoems,
+  },
+  {
+    path: '/poemview/:id',
+    name: 'poemview',
+    component: PoemView,
   },
 ];
 

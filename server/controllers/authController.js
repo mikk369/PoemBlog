@@ -94,20 +94,28 @@ exports.login = async (req, res, next) => {
 };
 
 exports.protect = async (req, res, next) => {
-  if (!req.cookies) {
-    res.send(401).json({
-      error: 'no authentication token found!',
-    });
-    return;
-  }
+ 
   // get requests cookies, which come with every request
   const sessionToken = req.cookies['jwt'];
   if (!sessionToken) {
-    res.send(401).json({
-      error: 'no authentication token found!',
+    res.status(401).json({
+      error: 'You are not logged in! Please log in to get access.'
     });
     return;
   }
+  
+  // verify token 
+  const decoded = await promisify(jwt.verify)(sessionToken, process.env.JWT_SECRET);
 
-  res.send('User logged in').end();
-};
+  // check if user with this id still exist
+  const currentUser = await User.findById(decoded.id);
+  if(!currentUser) {
+    return next(
+      res.status(401).json({
+        error: "User with current token does no longer exist"
+      })
+    )
+  } 
+  // Grant access 
+next();
+}

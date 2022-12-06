@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const poemSchema = mongoose.Schema({
+  author:{
+    type: String,
+    required: true
+  },
   title: {
     type: String,
     //trim removes white spaces from strings, if spaces are left in

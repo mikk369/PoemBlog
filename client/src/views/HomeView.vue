@@ -13,25 +13,21 @@
       <div class="main-container">
         <div class="grid-wrapper">
           <div class="news-main">
-            <div class="paragraph-card" v-for="post in posts" :key="post._id">
-              <div class="cards">
+            <div class="paragraph-card" v-for="post in posts" :key="post._id"> 
+              <router-link style="text-decoration: none; color: inherit;" :to="{params: {id: post._id}, name: 'poemview'}" >
+              <div class="cards"> 
                 <h4>
                   <b>{{ post.title }}</b>
                 </h4>
+                
                 <p class="lower-paragraph">
                   {{ post.text }}
                 </p>
-                <div class="button-wrapper">
-                  <button
-                    v-if="isLogged"
-                    @click="deletePost(post._id)"
-                    type="button"
-                    class="delete-button btn btn-danger"
-                  >
-                    Delete
-                  </button>
+                <div class="author-div">
+                  {{post.author}}
                 </div>
               </div>
+            </router-link>
             </div>
           </div>
         </div>
@@ -53,10 +49,6 @@
 .grid-wrapper {
   margin-top: 40px;
   padding: 30px;
-}
-.button-wrapper {
-  text-align: right;
-  padding: 3px;
 }
 
 .news-main {
@@ -85,6 +77,10 @@
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
+.author-div{
+  display: flex;
+  float: right;
+}
 </style>
 
 <script>
@@ -96,30 +92,13 @@ export default {
   data() {
     return {
       posts: [],
-      isLogged: this.checkIfAuthenticated(),
     };
   },
 
   async created() {
-    const response = await axios.get('http://localhost:3000/api/v1/poems');
+    const response = await axios.get('http://localhost:3000/api/v1/poems/');
     this.posts = response.data.data.poems;
   },
-  methods: {
-    deletePost(id) {
-      axios.delete('http://localhost:3000/api/v1/poems/' + id).then(() => {
-        window.location.reload();
-      });
-    },
-    checkIfAuthenticated() {
-      let token = localStorage.getItem('token');
-      if (token) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-  },
-
   components: {
     HeaderView,
     FooterView,

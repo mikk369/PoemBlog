@@ -10,6 +10,9 @@ footer {
   align-items: center;
   justify-content: center;
   width: 100%;
+  bottom: 0;
+  position: fixed;
+  bottom: 0;
 }
 </style>
 

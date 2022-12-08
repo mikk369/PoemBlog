@@ -13,25 +13,22 @@
       <div class="main-container">
         <div class="grid-wrapper">
           <div class="news-main">
-            <div class="paragraph-card" v-for="post in posts" :key="post._id">
-              <div class="cards">
+            <div class="paragraph-card" v-for="post in posts" :key="post._id"> 
+              <router-link class="router-styles" :to="{params: {id: post._id}, name: 'poemview'}" >
+              <div class="cards"> 
                 <h4>
                   <b>{{ post.title }}</b>
                 </h4>
                 <p class="lower-paragraph">
                   {{ post.text }}
                 </p>
-                <div class="button-wrapper">
-                  <button
-                    v-if="isLogged"
-                    @click="deletePost(post._id)"
-                    type="button"
-                    class="delete-button btn btn-danger"
-                  >
-                    Delete
-                  </button>
-                </div>
               </div>
+            </router-link>
+            <div class="author-wrapper">
+              <div class="author-div">
+                {{post.author}}
+              </div>
+            </div>
             </div>
           </div>
         </div>
@@ -54,23 +51,18 @@
   margin-top: 40px;
   padding: 30px;
 }
-.button-wrapper {
-  text-align: right;
-  padding: 3px;
+.router-styles{
+  text-decoration: none; 
+  color: inherit;
 }
-
 .news-main {
   display: grid;
-
   grid-template-columns: repeat(3, 1fr);
-
   grid-auto-rows: auto;
-
   grid-gap: 1rem;
 }
 
 .paragraph-card {
-  /* Add shadows to create the "card" effect */
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   border-radius: 9px;
   overflow: hidden;
@@ -78,13 +70,25 @@
 
 .cards {
   padding: 2px 16px;
+  height: 120px;
 }
+
 .lower-paragraph {
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
+.author-wrapper{
+  display: flex;
+  flex-direction: row-reverse;
+  
+}
+.author-div{
+  padding: 9px;
+  
+}
+
 </style>
 
 <script>
@@ -96,30 +100,13 @@ export default {
   data() {
     return {
       posts: [],
-      isLogged: this.checkIfAuthenticated(),
     };
   },
 
   async created() {
-    const response = await axios.get('http://localhost:3000/api/v1/poems');
+    const response = await axios.get('http://localhost:3000/api/v1/poems/');
     this.posts = response.data.data.poems;
   },
-  methods: {
-    deletePost(id) {
-      axios.delete('http://localhost:3000/api/v1/poems/' + id).then(() => {
-        window.location.reload();
-      });
-    },
-    checkIfAuthenticated() {
-      let token = localStorage.getItem('token');
-      if (token) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-  },
-
   components: {
     HeaderView,
     FooterView,

@@ -12,7 +12,7 @@
                         <div class="poem-author">{{author}}</div>
                     </div>
                     <div class="button-wrapper">
-                        <button v-if="isLogged" type="button" class="update-btn btn btn-warning">Update</button>
+                            <button @click="pushToUpdate()"  v-if="isLogged" type="button" class="update-btn btn btn-warning">Update</button>
                         <button v-if="isLogged" @click="deletePost(id)" type="button" class="delete-button btn btn-danger">Delete</button>
                     </div>
                 </div>
@@ -76,12 +76,15 @@ async mounted(){
     this.id = response.data.data.poem._id
 },
 methods: {
-deletePost(id) {
-  axios.delete('http://localhost:3000/api/v1/poems/' + id)
-  this.$router.push('/');
-},
-checkIfAuthenticated() {
-    let token = localStorage.getItem('token');
+    deletePost(id) {
+        axios.delete('http://localhost:3000/api/v1/poems/' + id)
+        this.$router.push('/');
+    },
+    pushToUpdate(){
+        this.$router.push({name: 'edit-poem', params: { id: this.id }})
+    },
+    checkIfAuthenticated() {
+        let token = localStorage.getItem('token');
     if (token) {
         return true;
     } else {

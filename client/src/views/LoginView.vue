@@ -49,8 +49,7 @@
   margin-top: 10%;
   margin-bottom: 306px;
 }
-.login-wrapper {
-}
+
 </style>
 <script>
 import axios from 'axios';

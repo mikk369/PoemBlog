@@ -28,6 +28,9 @@
               <div class="author-div">
                 {{post.author}}
               </div>
+              <div class="createdAt">
+                {{post.createdAt}}
+              </div>
             </div>
             </div>
           </div>
@@ -82,11 +85,14 @@
 .author-wrapper{
   display: flex;
   flex-direction: row-reverse;
+  justify-content: space-between;
   
 }
 .author-div{
   padding: 9px;
-  
+}
+.createdAt{
+  padding: 9px;
 }
 
 </style>
@@ -106,6 +112,7 @@ export default {
   async created() {
     const response = await axios.get('http://localhost:3000/api/v1/poems/');
     this.posts = response.data.data.poems;
+    console.log(response.data.data.poems);
   },
   components: {
     HeaderView,
